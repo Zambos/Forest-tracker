@@ -161,6 +161,26 @@ public class TestMap : MonoBehaviour
 #endif
         Start()
 	{
+		/*GameObject markerGO;
+		GameObject go = Tile.CreateTileTemplate(Tile.AnchorPoint.BottomCenter).gameObject;
+		go.GetComponent<Renderer>().material.mainTexture = MarkerTexture;
+		go.GetComponent<Renderer>().material.renderQueue = 4001;
+		go.transform.localScale = new Vector3(0.70588235294118f, 1.0f, 1.0f);
+		go.transform.localScale /= 7.0f;
+		go.AddComponent<CameraFacingBillboard>().Axis = Vector3.up;
+		markerGO = Instantiate(go) as GameObject;
+		map.CreateMarker<Marker>("bbgbg", new double[2] {0,0 }, markerGO);
+		go = Tile.CreateTileTemplate().gameObject;
+		go.GetComponent<Renderer>().material.mainTexture = LocationTexture;
+		go.GetComponent<Renderer>().material.renderQueue = 4000;
+		go.transform.localScale /= 27.0f;
+		Debug.Log("bgbgg");
+		markerGO = Instantiate(go) as GameObject;
+		markerGO.tag = "marker";
+		
+		map.SetLocationMarker<LocationMarker>(markerGO);
+		DestroyImmediate(go);*/
+		//Debug.Log("bgnnnn");
         // setup the gui scale according to the screen resolution
         guiXScale = (Screen.orientation == ScreenOrientation.Landscape ? Screen.width : Screen.height) / 480.0f;
         guiYScale = (Screen.orientation == ScreenOrientation.Landscape ? Screen.height : Screen.width) / 640.0f;
@@ -281,15 +301,26 @@ public class TestMap : MonoBehaviour
 #endif
 
         // create some test 2D markers
+		//GameObject markerGO;
 		GameObject go = Tile.CreateTileTemplate(Tile.AnchorPoint.BottomCenter).gameObject;
-		go.GetComponent<Renderer>().material.mainTexture = MarkerTexture;
+		/*go.GetComponent<Renderer>().material.mainTexture = MarkerTexture;
 		go.GetComponent<Renderer>().material.renderQueue = 4001;
 		go.transform.localScale = new Vector3(0.70588235294118f, 1.0f, 1.0f);
 		go.transform.localScale /= 7.0f;
         go.AddComponent<CameraFacingBillboard>().Axis = Vector3.up;
-
-
-
+		markerGO = Instantiate(go) as GameObject;
+		map.CreateMarker<Marker>("bbgbg", new double[2] {0,0 }, markerGO);
+		go = Tile.CreateTileTemplate().gameObject;
+		go.GetComponent<Renderer>().material.mainTexture = LocationTexture;
+		go.GetComponent<Renderer>().material.renderQueue = 4000;
+		go.transform.localScale /= 27.0f;
+		Debug.Log("bgbgg");
+		markerGO = Instantiate(go) as GameObject;
+		markerGO.tag = "marker";
+		
+		map.SetLocationMarker<LocationMarker>(markerGO);
+		DestroyImmediate(go);
+		*/
 		string[] markers;
 		//Tuk se dobavqt markerite
 		//napravi zaqvka za iztegqneto im i posle s foreach gi postavi
@@ -298,18 +329,20 @@ public class TestMap : MonoBehaviour
 			var values = new NameValueCollection();
 			values["queryType"] = "3";
 			
-			var response = client.UploadValues("forestwatch.comli.com/server.php", values);
+			var response = client.UploadValues("http:/server.php", values);
 			var responseString = Encoding.Default.GetString(response);
 			markers = responseString.Split(',');
 		}
 		GameObject markerGO;
+		markerGO = Instantiate(go) as GameObject;
+		Debug.Log("nnhhnh");
+		for(int i=0;i<5;i+=3){
 
-
-		for(int i=0;i<markers.Length;i+=3){
-			markerGO = Instantiate(go) as GameObject;
-			map.CreateMarker<Marker>(markers[i+2], new double[2] {Convert.ToDouble( markers[i]), Convert.ToDouble(markers[i+1]) }, markerGO);
+			Debug.Log("bgbgg");
+			map.CreateMarker<Marker>(markers[i+2], new double[2] {/*Convert.ToDouble( markers[i]), Convert.ToDouble(markers[i+1])*/0,0 }, markerGO);
 		}
 
+		map.CreateMarker<Marker>("asd", new double[2] {/*Convert.ToDouble( markers[i]), Convert.ToDouble(markers[i+1])*/0,0 }, markerGO);
 
 		DestroyImmediate(go);
 		
@@ -320,8 +353,9 @@ public class TestMap : MonoBehaviour
 		go.transform.localScale /= 27.0f;
 		
 		markerGO = Instantiate(go) as GameObject;
-		map.SetLocationMarker<LocationMarker>(markerGO);
+		markerGO.tag = "marker";
 
+		map.SetLocationMarker<LocationMarker>(markerGO);
 		DestroyImmediate(go);
 	}
 	

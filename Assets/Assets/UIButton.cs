@@ -8,6 +8,7 @@ using System.Text;
 [HideInInspector]
 public class UIButton : MonoBehaviour {
 	public GameObject Can1;
+	public bool flag1 = false;
 	public GameObject Can2;
 	public GameObject Con;
 	public GameObject plane;
@@ -19,7 +20,7 @@ public class UIButton : MonoBehaviour {
 	public Text Other;
 	public GameObject Back;
 	public Camera mainCamera;
-
+	
 	public void OnClic()
 	{
 		Can1.SetActive (false);
@@ -33,35 +34,40 @@ public class UIButton : MonoBehaviour {
 	{
 		Back.SetActive (true);
 		Can2.SetActive (false);
-		Con.SetActive (false);
+		//Con.SetActive (false);
 		plane.SetActive (false);
 		Up.SetActive (true);
-
+		GameObject.FindGameObjectWithTag ("MainController").SendMessage ("SetTexture", GameObject.FindGameObjectWithTag ("MainController").GetComponent<PhoneCamera> ().Snap);
+		GameObject.FindGameObjectWithTag ("MainController").SendMessage ("SetFalse", true);
+		Debug.Log ("Gosho");
 	}
 	public void OfCOnU()
 	{
 		Can3.SetActive (true);
-		
+	}
+	public void TakePicture(){
+		GameObject.FindGameObjectWithTag ("MainController").SendMessage ("SetTrue", true);
+		Debug.Log ("bgbnnn");
 	}
 	public void OP1()
 	{
 		Can3.SetActive (false);
-		//OP.text = "Selected Reason:OP1";
+		OP.text = "LOGGING";
 	}
 	public void OP2()
 	{
 		Can3.SetActive (false);
-		//OP.text = "Selected Reason:OP2";
+		OP.text = "WILDFIRE";
 	}
 	public void OP3()
 	{
 		Can3.SetActive (false);
-		//OP.text = "Selected Reason:OP3";
+		OP.text = "CONSTRUCTION";
 	}
 	public void OP4()
 	{
 		Can3.SetActive (false);
-		//OP.text = "Selected Reason:OP4";
+		OP.text = "AGRICULTURAL EXPANSION";
 	}
 	public void OP5()
 	{
@@ -71,23 +77,24 @@ public class UIButton : MonoBehaviour {
 	public void OP6()
 	{
 		Can4.SetActive (false);
-		OP.text = "Selected Reason:" + Other.text;
+		OP.text =" " + Other.text;
 	}
 	public void submit(){
 		using (var client = new WebClient())
 		{
-
 			var values = new NameValueCollection();
 			values["queryType"] = "1";
 			values["desc"] = Other.text;
 			values["xCoord"] = Input.location.lastData.latitude+"";
 			values["yCoord"] = Input.location.lastData.longitude+"";
 			values["reasons"]= Other.text;
-			var response = client.UploadValues("http://forestwatch.comli.com/server.php", values);
+			var response = client.UploadValues("http://localhost/NASA/Server.php", values);
+			//Debug.Log(response);
 			var responseString = Encoding.Default.GetString(response);
 				
-			var response2 = client.UploadFile("http://forestwatch.comli.com/server.php",  "POST", Application.persistentDataPath +
+			var response2 = client.UploadFile("http://localhost/NASA/Server.php",  "POST", Application.persistentDataPath +
 			                                  "/my_image.png");
+
 			Debug.Log("assssssssss");
 		}
 	}

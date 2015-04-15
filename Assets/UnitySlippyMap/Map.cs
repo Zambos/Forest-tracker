@@ -950,7 +950,7 @@ public class Map : MonoBehaviour
 	public T CreateMarker<T>(string name, double[] coordinatesWGS84, GameObject go) where T : Marker
 	{
 		// create a GameObject and add the templated Marker component to it
-        GameObject markerObject = new GameObject(name);
+        GameObject markerObject =  GameObject.FindGameObjectWithTag("Resource");
 		markerObject.transform.parent = this.gameObject.transform;
 		
 		//go.name = "go - " + name;
