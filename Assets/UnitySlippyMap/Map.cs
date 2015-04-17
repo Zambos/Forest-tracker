@@ -952,9 +952,9 @@ public class Map : MonoBehaviour
 		// create a GameObject and add the templated Marker component to it
         GameObject markerObject =  GameObject.FindGameObjectWithTag("Resource");
 		markerObject.transform.parent = this.gameObject.transform;
-		
+							Debug.Log("vmfkfmvkfvmkfmvkfmvkfvmkf");
 		//go.name = "go - " + name;
-		go.transform.parent = markerObject.gameObject.transform;
+    	go.transform.parent = markerObject.gameObject.transform;
 		go.transform.localPosition = Vector3.zero;
 		
 		T marker = markerObject.AddComponent<T>();

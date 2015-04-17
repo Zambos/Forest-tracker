@@ -2,16 +2,15 @@
 using System.Collections;
 
 public class MarkerClick : MonoBehaviour {
-	GameObject select;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if ( Input.GetMouseButtonDown(0)){
+	bool flag = false;
 
-			}
+	void Clicked(bool value){
+		flag = value;
+	}
+	void Update(){
+		if (flag == true) {
+			Debug.Log ("Gosho");
+			flag = false;
 		}
 	}
+}

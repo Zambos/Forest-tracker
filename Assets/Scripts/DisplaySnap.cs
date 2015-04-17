@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DisplaySnap : MonoBehaviour {
 	public Texture2D texture;
+	public Texture photo;
 	public bool ff;
 	void Start(){
 //		texture = GetComponent<PhoneCamera> ();
@@ -12,10 +13,10 @@ public class DisplaySnap : MonoBehaviour {
 	void OnGUI(){
 		Debug.Log (ff);
 		bool flag2 = ff;
-		if (flag2){
+		/*if (flag2){
 			GUI.DrawTexture (new Rect (Screen.width*0.05f,Screen.height*0.05f,Screen.width*0.8f,Screen.height*0.35f), texture);
 
-		}
+		}*/
 	}
 	void SetTexture(Texture2D karpa){
 		texture = karpa;

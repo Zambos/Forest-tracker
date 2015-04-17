@@ -20,14 +20,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using UnityEngine;
-
-namespace UnitySlippyMap
-{
+using System.Collections;
+using UnitySlippyMap;
+//namespace UnitySlippyMap
+//{
 
 // FIXME: not sure the use of a namespace is appropriate
 // TODO: refactor the whole thing
 public class Tile : MonoBehaviour
-{
+{	
+	bool flag = false;
     #region Private members & properties
 
     private int			textureId;
@@ -57,9 +59,28 @@ public class Tile : MonoBehaviour
     #endregion
 	
 	#region MonoBehaviour implementation
-
+		/*void OnMouseEnter(){
+			Debug.Log("HHHHHHHHHHHHH");
+			flag = true;
+		}
+		void OnMouseExit(){
+			Debug.Log("peshooooooo");
+			flag = false;		
+		}*/
+	void OnGUI(){
+//		if(GUI.Button(new Rect(),))
+	}
+	void start(){
+		this.tag = "Resource";
+	}
 	private void Update()
-	{
+	{	
+		Debug.Log("gfgfgfgfgfg");
+		if (flag == true) {
+			if(Input.GetMouseButtonDown(0)){
+				GameObject.FindGameObjectWithTag("ClickMarker").SendMessage("Clicked", true);
+			}		
+		}
 		if (showing)
 		{
 			float delta = Time.time - apparitionStartTime;
@@ -227,7 +248,7 @@ public class Tile : MonoBehaviour
 		tile.material = meshRenderer.material = new Material(shader);
 			
 		// setup the collider
-		boxCollider.size = new Vector3(1.0f, 0.0f, 1.0f);
+		boxCollider.size = new Vector3(0.0f, 0.0f, 1.0f);
 		
 		return tile;
     }
@@ -271,4 +292,4 @@ public class Tile : MonoBehaviour
     #endregion
 }
 
-}
+//}

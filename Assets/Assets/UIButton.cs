@@ -17,14 +17,24 @@ public class UIButton : MonoBehaviour {
 	public GameObject Can4;
 	public GameObject Up;
 	public Text OP;
+	public Text areaSize;
 	public Text Other;
+	public Text reasons;
+	public DisplaySnap Psnap;
+	public DisplaySnap kkk;
+	public RawImage img;
 	public GameObject Back;
 	public Camera mainCamera;
-	
+	Texture2D tmpTex;
+	public RawImage target;
+	public GameObject Map;
+
 	public void OnClic()
 	{
+		Map = GameObject.FindGameObjectWithTag ("map");
 		Can1.SetActive (false);
-		GameObject.FindGameObjectWithTag("map").SetActive(false);
+		Map.SetActive (false);
+		//GameObject.FindGameObjectWithTag("map").SetActive(false);
 		mainCamera.transform.position=new Vector3(10,5,-10);
 		Can2.SetActive (true);
 		Con.SetActive (true);
@@ -40,6 +50,33 @@ public class UIButton : MonoBehaviour {
 		GameObject.FindGameObjectWithTag ("MainController").SendMessage ("SetTexture", GameObject.FindGameObjectWithTag ("MainController").GetComponent<PhoneCamera> ().Snap);
 		GameObject.FindGameObjectWithTag ("MainController").SendMessage ("SetFalse", true);
 		Debug.Log ("Gosho");
+		//Debug.Log (Psnap.photo.name);
+		Psnap.photo.GetType ();
+		img.texture = Psnap.photo;
+		Debug.Log ("kkkkkkklllllllkkkkkk");
+		tmpTex = new Texture2D (Psnap.texture.width, Psnap.texture.height);
+		target.texture = new Texture2D (Psnap.texture.width, Psnap.texture.height);
+		tmpTex.SetPixels (Psnap.texture.GetPixels ());
+		tmpTex.Apply ();
+		target.texture = tmpTex;
+	}
+	public void BackToCan1()
+	{
+		Can1.SetActive (true);
+		Map.SetActive (true);
+		GameObject.FindGameObjectWithTag("map").SetActive(true);
+		mainCamera.transform.position=new Vector3(10,5,-10);
+		Can2.SetActive (false);
+		Con.SetActive (false);
+		plane.SetActive (false);
+	}
+	public void BackToCan2()
+	{
+		Back.SetActive (false);
+		Can2.SetActive (true);
+		//Con.SetActive (false);
+		plane.SetActive (true);
+		Up.SetActive (false);
 	}
 	public void OfCOnU()
 	{
@@ -77,7 +114,7 @@ public class UIButton : MonoBehaviour {
 	public void OP6()
 	{
 		Can4.SetActive (false);
-		OP.text =" " + Other.text;
+		OP.text = reasons.text;
 	}
 	public void submit(){
 		using (var client = new WebClient())
@@ -85,21 +122,24 @@ public class UIButton : MonoBehaviour {
 			var values = new NameValueCollection();
 			values["queryType"] = "1";
 			values["desc"] = Other.text;
+			values["areaSize"] = areaSize.text;
+			Debug.Log (Other.text+" "+areaSize.text+" "+Input.location.lastData.latitude+" "+Input.location.lastData.longitude+OP.text);
 			values["xCoord"] = Input.location.lastData.latitude+"";
 			values["yCoord"] = Input.location.lastData.longitude+"";
-			values["reasons"]= Other.text;
+			values["reasons"]= OP.text;
 			var response = client.UploadValues("http://localhost/NASA/Server.php", values);
 			//Debug.Log(response);
 			var responseString = Encoding.Default.GetString(response);
-				
+			
 			var response2 = client.UploadFile("http://localhost/NASA/Server.php",  "POST", Application.persistentDataPath +
 			                                  "/my_image.png");
-
-			Debug.Log("assssssssss");
+			
+			//Debug.Log("assssssssss");
 		}
 	}
 	IEnumerator Start()
 	{
+		Map = GameObject.FindGameObjectWithTag ("map");
 		// First, check if user has location service enabled
 		if (!Input.location.isEnabledByUser)
 			yield break;
@@ -119,8 +159,9 @@ public class UIButton : MonoBehaviour {
 			print("Timed out");
 			yield break;
 		}
+		
 	}
-	void Update(){
+	/*void Update(){
 		//OP = GameObject.FindGameObjectWithTag("Con") as Text;
-	}
+	}*/
 }

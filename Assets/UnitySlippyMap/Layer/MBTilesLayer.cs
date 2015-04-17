@@ -35,9 +35,13 @@ public class MBTilesLayer : DBTileLayer
 {
 	#region Private members & properties
 	
-    /// <summary>
-    /// The path to the MBTiles file to query. Changing the property triggers the loading.
-    /// </summary>
+
+    /// 
+		/// <summary>
+    /// The 
+		/// path to the MBTiles file to query. Changing the property triggers the loading.
+    /// </su
+		/// mmary>
 	private string				filepath;
 	public string				Filepath
     {
@@ -45,12 +49,14 @@ public class MBTilesLayer : DBTileLayer
         set
         {
             filepath = value;
-            if (filepath != null && filepath != String.Empty)
+            if (filepath != null && filepath != String.Empty){
+					//Debug.Log("KONNNNNN2 "+filepath);
                 Open();
+					Debug.Log("KONNNNNN3 "+filepath);}
             else
-            {
-                Close();
-                throw new ArgumentException("filepath must not be null or empty");
+				{Debug.Log("KONNNNNN4 "+filepath);
+					Close();Debug.Log("KONNNNNN5 "+filepath);
+					throw new ArgumentException("filepath must not be null or empty");Debug.Log("KONNNNNN6 "+filepath);
             }
         }
     }
@@ -115,12 +121,18 @@ public class MBTilesLayer : DBTileLayer
     /// Opens the MBTiles database file located at Filepath.
     /// </summary>
 	private void Open()
-	{
-		if (db != null)
-			db.Close();
-		
-		db = new SqliteDatabase();
-		db.Open(filepath);
+		{	Debug.Log("KONNNNNN9 "+filepath);
+		if (db != null) {
+								Debug.Log ("KONNNNNN20 " + filepath);
+								db.Close ();
+								Debug.Log ("KONNNNNN21 " + filepath);
+						} else {
+								Debug.Log ("KONNNNNN22 " + filepath);
+								db = new SqliteDatabase ();
+								Debug.Log ("KONNNNNN23 " + filepath);
+								db.Open (filepath);
+								Debug.Log ("KONNNNNN24 " + filepath);
+						}
 		
 		DataTable dt = db.ExecuteQuery("SELECT * FROM metadata");
 
