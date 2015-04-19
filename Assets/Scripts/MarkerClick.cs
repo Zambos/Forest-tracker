@@ -2,15 +2,18 @@
 using System.Collections;
 
 public class MarkerClick : MonoBehaviour {
-	bool flag = false;
-
-	void Clicked(bool value){
-		flag = value;
-	}
+	public GameObject Canvas;
 	void Update(){
-		if (flag == true) {
-			Debug.Log ("Gosho");
-			flag = false;
+		if (Input.touchCount > 0){
+			//Canvas.SetActive(false);
+			//Debug.Log (Input.touchCount);
+			RaycastHit hit;
+			Ray ray = Camera.main.ScreenPointToRay (Input.GetTouch(0).deltaPosition);
+			//Transform marker = GameObject.FindWithTag("marker").transform;
+			if(Physics.Raycast (ray, out hit, 100.0f))
+				Debug.Log (hit.collider.tag);
+					if(hit.collider.tag == "marker")
+						Canvas.SetActive(false);
 		}
 	}
 }

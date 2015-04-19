@@ -119,7 +119,9 @@ public class Marker : MonoBehaviour
 	}
 	
 	#endregion
-	
+		void Start(){
+			this.gameObject.tag = "marker";		
+		}
 	#region Public methods
 	
 	// <summary>

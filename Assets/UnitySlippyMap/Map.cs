@@ -97,7 +97,6 @@ namespace UnitySlippyMap
 public class Map : MonoBehaviour
 {
 	#region Singleton stuff
-		
 	private static Map instance = null;
 	public static Map Instance
 	{
@@ -569,7 +568,7 @@ public class Map : MonoBehaviour
 		{
 			double[] camCenter = new double[] { centerEPSG900913[0], centerEPSG900913[1] };
 			double offset = Mathf.Floor(currentCamera.pixelHeight * 0.5f) * metersPerPixel;
-				Debug.Log(offset);
+//				Debug.Log(offset);
 			if (camCenter[1] + offset > GeoHelpers.HalfEarthCircumference)
 			{
 				camCenter[1] -= camCenter[1] + offset - GeoHelpers.HalfEarthCircumference;
@@ -636,6 +635,8 @@ public class Map : MonoBehaviour
 	
 	private void Start ()
 	{
+			this.gameObject.AddComponent<BoxCollider> ();
+			this.gameObject.layer = 2;
         // setup the gui scale according to the screen resolution
         if (Application.platform == RuntimePlatform.Android
             || Application.platform == RuntimePlatform.IPhonePlayer)
@@ -950,15 +951,15 @@ public class Map : MonoBehaviour
 	public T CreateMarker<T>(string name, double[] coordinatesWGS84, GameObject go) where T : Marker
 	{
 		// create a GameObject and add the templated Marker component to it
-        GameObject markerObject =  GameObject.FindGameObjectWithTag("Resource");
+        GameObject markerObject = new GameObject(name);
 		markerObject.transform.parent = this.gameObject.transform;
-							Debug.Log("vmfkfmvkfvmkfmvkfmvkfvmkf");
+							//markerObject.AddComponent<Clickable>();
 		//go.name = "go - " + name;
-    	go.transform.parent = markerObject.gameObject.transform;
+		go.transform.parent = markerObject.gameObject.transform;
 		go.transform.localPosition = Vector3.zero;
 		
 		T marker = markerObject.AddComponent<T>();
-		
+		marker.tag = "marker";
 		// setup the marker
 		marker.Map = this;
 		marker.CoordinatesWGS84 = coordinatesWGS84;

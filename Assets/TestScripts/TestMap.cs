@@ -159,7 +159,7 @@ public class TestMap : MonoBehaviour
 #else
         void
 #endif
-   Start()
+        Start()
 	{
         // setup the gui scale according to the screen resolution
         guiXScale = (Screen.orientation == ScreenOrientation.Landscape ? Screen.width : Screen.height) / 480.0f;
@@ -260,49 +260,48 @@ public class TestMap : MonoBehaviour
         else
 		{
 			filepath = Application.streamingAssetsPath + "/" + mbTilesDir + filename;
-			//Debug.Log("MARKERRRRRR");
 		}
 		
 		if (error == false)
 		{
             Debug.Log("DEBUG: using MBTiles file: " + filepath);
 			MBTilesLayer mbTilesLayer = map.CreateLayer<MBTilesLayer>("MBTiles");
-			Debug.Log("KONNNNNN1 "+mbTilesLayer);
 			//mbTilesLayer.Filepath = filepath;
-			Debug.Log("KONNNNNN7 "+filepath);
 #if UNITY_3_0 || UNITY_3_1 || UNITY_3_2 || UNITY_3_3 || UNITY_3_4 || UNITY_3_5 || UNITY_3_6 || UNITY_3_7 || UNITY_3_8 || UNITY_3_9
             mbTilesLayer.gameObject.SetActiveRecursively(false);
 #else
 			mbTilesLayer.gameObject.SetActive(false);
 #endif
-           // layers.Add(mbTilesLayer);
+
+            //layers.Add(mbTilesLayer);
 		}
         else
             Debug.LogError("ERROR: MBTiles file not found!");
+
 #endif
+
         // create some test 2D markers
-		GameObject markerGO;
-		GameObject m;
 		GameObject go = Tile.CreateTileTemplate(Tile.AnchorPoint.BottomCenter).gameObject;
-		go.GetComponent<Renderer>().material.mainTexture = MarkerTexture;
-		//go.GetComponent<Renderer>().
+		/*go.GetComponent<Renderer>().material.mainTexture = MarkerTexture;
 		go.GetComponent<Renderer>().material.renderQueue = 4001;
 		go.transform.localScale = new Vector3(0.70588235294118f, 1.0f, 1.0f);
 		go.transform.localScale /= 7.0f;
+		go.tag = "marker";
         go.AddComponent<CameraFacingBillboard>().Axis = Vector3.up;
-		markerGO = Instantiate(go) as GameObject;
-		map.CreateMarker<Marker>("bbgbg", new double[2] {0,0 }, markerGO);
+		//go.AddComponent<UIButton>();
+		go.AddComponent<CameraFacingBillboard>().Axis = Vector3.up;
+		//markerGO = Instantiate(go) as GameObject;
+		//map.CreateMarker<Marker>("bbgbg", new double[2] {0,0 }, markerGO);
 		go = Tile.CreateTileTemplate().gameObject;
 		go.GetComponent<Renderer>().material.mainTexture = LocationTexture;
 		go.GetComponent<Renderer>().material.renderQueue = 4000;
-		go.transform.localScale /= 27.0f;
-		Debug.Log("bgbgg");
+		go.transform.localScale /= 27.0f;*/
+		//Debug.Log("bgbgg");
+		GameObject markerGO;
 		markerGO = Instantiate(go) as GameObject;
-		markerGO.tag = "marker";
-		m = GameObject.FindGameObjectWithTag("marker");
-		m.AddComponent<UIButton>();
-		map.SetLocationMarker<LocationMarker>(markerGO);
-		DestroyImmediate(go);
+		//markerGO.tag = "marker";
+	//	DestroyImmediate(go);
+
 		string[] markers;
 		//Tuk se dobavqt markerite
 		//napravi zaqvka za iztegqneto im i posle s foreach gi postavi
@@ -311,20 +310,28 @@ public class TestMap : MonoBehaviour
 			var values = new NameValueCollection();
 			values["queryType"] = "3";
 			
-			var response = client.UploadValues("http://localhost/NASA/Server.php", values);
-			var responseString = Encoding.Default.GetString(response);
-			markers = responseString.Split(',');
-		}
-		Debug.Log("KONNNNNN");
-//		GameObject markerGO;
-		//markerGO = Instantiate(go) as GameObject;
-		Debug.Log("nnhhnh");
-		/*for(int i=0;i<5;i+=3){
+			try{
+				var response = client.UploadValues("http://localhost/NASA/Server.php", values);
+				var responseString = Encoding.Default.GetString(response);
+				Debug.Log(responseString);
+				markers = responseString.Split(',');
+			}catch(Exception e){
+				Debug.Log (e.Message);
+			}
 
-			map.CreateMarker<Marker>(markers[i+2], new double[2] {Convert.ToDouble( markers[i]), Convert.ToDouble(markers[i+1])0,0 }, markerGO);
+
+		}
+		markerGO = Instantiate(go) as GameObject;
+		markerGO.tag = "marker";
+		//map.CreateMarker<Marker>("а", new double[2] {Convert.ToDouble(Input.location.lastData.latitude), Convert.ToDouble(Input.location.lastData.latitude) }, markerGO);
+		//map.CreateMarker<Marker>("а", new double[2] {Convert.ToDouble(42), Convert.ToDouble(027) }, markerGO);
+		Debug.Log("ffffff");
+		/*for(int i=0;i<markers.Length;i+=3){
+
+			map.CreateMarker<Marker>(markers[i+2], new double[2] {Convert.ToDouble( markers[i]), Convert.ToDouble(markers[i+1]) }, markerGO);
 		}*/
 
-		map.CreateMarker<Marker>("asd", new double[2] {/*Convert.ToDouble( markers[i]), Convert.ToDouble(markers[i+1])*/42.5006,27.47079 }, markerGO);
+
 		DestroyImmediate(go);
 		
 		// create the location marker
@@ -334,11 +341,9 @@ public class TestMap : MonoBehaviour
 		go.transform.localScale /= 27.0f;
 		
 		markerGO = Instantiate(go) as GameObject;
-		markerGO.tag = "marker";
-
 		map.SetLocationMarker<LocationMarker>(markerGO);
+
 		DestroyImmediate(go);
-		Debug.Log("vmfkfmvkfvmkfmvkfmvkfvmkf");
 	}
 	
 	void OnApplicationQuit()
